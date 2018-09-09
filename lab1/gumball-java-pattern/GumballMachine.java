@@ -1,35 +1,56 @@
 
-
 public class GumballMachine {
- 
+
 	State soldOutState;
-	State noQuarterState;
-	State hasQuarterState;
+	State noCoinState;
+	State hasCoinState;
 	State soldState;
- 
+
+	int countOfNickel;
+	int countOfDime;
+	int countOfQuarter;
+	int typeOfMachine;
+
+
+
 	State state = soldOutState;
-	int count = 0;
- 
-	public GumballMachine(int numberGumballs) {
+	int countOfBalls = 0;
+
+	public GumballMachine(int numberOfGumballs) {
 		soldOutState = new SoldOutState(this);
-		noQuarterState = new NoQuarterState(this);
-		hasQuarterState = new HasQuarterState(this);
+		noCoinState = new NoCoinState(this);
+		hasCoinState = new HasCoinState(this);
 		soldState = new SoldState(this);
 
-		this.count = numberGumballs;
- 		if (numberGumballs > 0) {
-			state = noQuarterState;
-		} 
+		countOfNickel = 0;
+		countOfDime = 0;
+		countOfQuarter = 0;
+		typeOfMachine = 0;
+
+		this.countOfBalls = numberOfGumballs;
+		if (numberOfGumballs > 0) {
+			state = noCoinState;
+		}
 	}
- 
-	public void insertQuarter() {
-		state.insertQuarter();
+
+	public void insertCoin(int coin) {
+		if (coin == 25) {
+			++countOfQuarter;
+			System.out.println("Inserted a Quarter");
+		} else if (coin == 5) {
+			++countOfNickel;
+			System.out.println("Inserted a Nickel");
+		} else if (coin == 10) {
+			++countOfDime;
+			System.out.println("Inserted a Dime");
+		}
+		state.insertCoin(coin);
 	}
- 
-	public void ejectQuarter() {
-		state.ejectQuarter();
+
+	public void ejectCoin() {
+		state.ejectCoin();
 	}
- 
+
 	public void turnCrank() {
 		state.turnCrank();
 		state.dispense();
@@ -38,49 +59,80 @@ public class GumballMachine {
 	void setState(State state) {
 		this.state = state;
 	}
- 
+
 	void releaseBall() {
 		System.out.println("A gumball comes rolling out the slot...");
-		if (count != 0) {
-			count = count - 1;
+		if (countOfBalls != 0) {
+			countOfBalls = countOfBalls - 1;
 		}
 	}
- 
-	int getCount() {
-		return count;
+
+	int getCountOfBalls() {
+		return countOfBalls;
 	}
- 
-	void refill(int count) {
-		this.count = count;
-		state = noQuarterState;
+	void setCountOfBalls(int c) {
+		this.countOfBalls = c ;
 	}
 
-    public State getState() {
-        return state;
-    }
+	
+	int getCountOfNickel() {
+		return countOfNickel;
+	}
+	int getCountOfdime() {
+		return countOfDime;
+	}
+	int getCountOfQuarter() {
+		return countOfQuarter;
+	}
 
-    public State getSoldOutState() {
-        return soldOutState;
-    }
+	int getTypeOfMachine() {
+		return typeOfMachine;
+	}
+	void setCountOfNickel(int countOfNickel) {
+		this.countOfNickel= countOfNickel;
+	}
+	void setCountOfdime(int countOfDime ) {
+		this.countOfDime= countOfDime;
+	}
+	void setCountOfQuarter(int countOfQuarter) {
+		this.countOfQuarter= countOfQuarter;
+	}
 
-    public State getNoQuarterState() {
-        return noQuarterState;
-    }
+	void setTypeOfMachine(int typeOfMachine) {
+		this.typeOfMachine =typeOfMachine;
+	}
 
-    public State getHasQuarterState() {
-        return hasQuarterState;
-    }
+	void refill(int countOfBalls) {
+		this.countOfBalls = countOfBalls;
+		state = noCoinState;
+	}
 
-    public State getSoldState() {
-        return soldState;
-    }
- 
+	public State getState() {
+		return state;
+	}
+
+	public State getSoldOutState() {
+		return soldOutState;
+	}
+
+	public State getNoCoinState() {
+		return noCoinState;
+	}
+
+	public State getHasCoinState() {
+		return hasCoinState;
+	}
+
+	public State getSoldState() {
+		return soldState;
+	}
+
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 		result.append("\nMighty Gumball, Inc.");
 		result.append("\nJava-enabled Standing Gumball Model #2004");
-		result.append("\nInventory: " + count + " gumball");
-		if (count != 1) {
+		result.append("\nInventory: " + countOfBalls + " gumball");
+		if (countOfBalls != 1) {
 			result.append("s");
 		}
 		result.append("\n");
